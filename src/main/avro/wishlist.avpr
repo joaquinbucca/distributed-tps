@@ -1,0 +1,122 @@
+{
+  "namespace": "tp1.wishList",
+  "protocol": "WishListService",
+  "types": [
+    {
+      "name": "Item",
+      "fields": [
+        {
+          "name": "id",
+          "type": "long"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": [
+            "null",
+            "string"
+          ],
+          "default": null
+        }
+      ],
+      "type": "record"
+    },
+    {
+      "name": "Event",
+      "type": "enum",
+      "symbols": ["ADD", "REMOVE"]
+    },
+    {
+      "name": "WishListEvent",
+      "type": "record",
+      "fields": [
+        {"name": "item", "type": "Item"},
+        {"name": "event", "type": "Event"}
+      ]
+    },
+    {
+      "name": "WishList",
+      "fields": [
+        {
+          "name": "items",
+          "type": {
+            "type": "array",
+            "items": "Item"
+          }
+        },
+        {
+          "name": "events",
+          "type": {
+            "type": "array",
+            "items": "WishListEvent"
+          }
+        }
+      ],
+      "type": "record"
+    }
+  ],
+  "messages": {
+    "addItem": {
+      "response": "WishList",
+      "request": [
+        {
+          "name": "item",
+          "type": "Item"
+        },
+        {
+          "name": "customerId",
+          "type": "string"
+        },
+        {
+          "name": "isReplication",
+          "type": "boolean"
+        }
+      ]
+    },
+    "getWishList": {
+      "response": "WishList",
+      "request": [
+        {
+          "name": "customerId",
+          "type": "string"
+        }
+      ]
+    },
+    "getAllWishLists": {
+      "response": {"type" : "map", "values" : "WishList"},
+      "request": []
+    },
+    "rebuildWishList": {
+      "response": "boolean",
+      "request": [
+        {
+          "name": "wishList",
+          "type": {
+            "type": "map",
+            "values": "WishList"
+          }
+        }
+      ]
+    },
+    "deleteItem": {
+      "response": "WishList",
+      "request": [
+        {
+          "name": "item",
+          "type": "Item"
+        },
+        {
+          "name": "customerId",
+          "type": "string"
+        },
+        {
+          "name": "isReplication",
+          "type": "boolean"
+        }
+      ]
+    }
+  }
+}

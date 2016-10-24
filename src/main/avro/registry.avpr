@@ -1,0 +1,76 @@
+{
+  "namespace": "tp1.registry",
+  "protocol": "RegistryService",
+  "types": [
+    {
+      "name": "ServiceType",
+      "type": "enum",
+      "symbols": ["WISH_LIST", "REGISTRY"]
+    },
+    {
+      "name": "Service",
+      "fields": [
+        {
+          "name": "ip",
+          "type": "string"
+        },
+        {
+          "name": "port",
+          "type": "int"
+        },
+        {
+          "name": "timeToLive",
+          "type": "int"
+        }
+
+      ],
+      "type": "record"
+    },
+    {
+      "name": "ServiceMapper",
+      "fields": [
+        {
+          "name": "services",
+          "type": {
+            "type": "map",
+            "values": "Service"
+          }
+        }
+      ],
+      "type": "record"
+    }
+  ],
+  "messages": {
+    "publishService": {
+      "response": "string",
+      "request": [
+        {"name": "type", "type" : "ServiceType"},
+        {"name": "ip", "type" : "string"},
+        {"name": "time", "type": "int"},
+        {"name": "port", "type": "int"}
+      ]
+    },
+    "keepAlive": {
+      "response": "string",
+      "request": [
+        {"name" : "serviceType", "type" : "ServiceType"},
+        {"name": "ip", "type" : "string"},
+        {"name": "port", "type" : "int"}
+      ]
+    },
+    "getAvailableServices": {
+      "response": {"type": "array", "items":"Service"},
+      "request" : [
+        {"name" : "serviceType", "type": "ServiceType"}
+      ]
+    },
+    "getAllServicesButMe": {
+      "response": {"type": "array", "items":"Service"},
+      "request" : [
+        {"name" : "serviceType", "type": "ServiceType"},
+        {"name" : "ip", "type": "string"},
+        {"name" : "port", "type": "int"}
+      ]
+    }
+  }
+}
